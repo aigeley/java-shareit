@@ -1,0 +1,24 @@
+package ru.practicum.shareit.element.exception;
+
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import static ru.practicum.shareit.ErrorHandler.sendError;
+
+@Order(Ordered.HIGHEST_PRECEDENCE)
+@RestControllerAdvice
+public class ElementErrorHandler {
+    @ExceptionHandler
+    public ResponseEntity<String> handleElementAlreadyExistsException(ElementAlreadyExistsException e) {
+        return sendError(e, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handleElementNotFoundException(ElementNotFoundException e) {
+        return sendError(e, HttpStatus.NOT_FOUND);
+    }
+}
