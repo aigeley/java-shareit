@@ -9,7 +9,7 @@ import java.time.ZonedDateTime;
 
 @Value
 @AllArgsConstructor
-public class Booking {
+public class BookingDto {
     long id; //уникальный идентификатор бронирования;
     ZonedDateTime start; //дата и время начала бронирования;
     ZonedDateTime end; //дата и время конца бронирования;

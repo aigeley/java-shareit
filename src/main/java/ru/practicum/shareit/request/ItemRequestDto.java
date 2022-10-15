@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 
 @Value
 @AllArgsConstructor
-public class ItemRequest {
+public class ItemRequestDto {
     long id; //уникальный идентификатор запроса;
     String description; //текст запроса, содержащий описание требуемой вещи;
     User requestor; //пользователь, создавший запрос;
