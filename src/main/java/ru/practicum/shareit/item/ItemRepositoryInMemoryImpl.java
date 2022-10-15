@@ -6,16 +6,19 @@ import ru.practicum.shareit.element.ElementRepositoryInMemoryAbs;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.StringUtils.containsIgnoreCase;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+
 @Component
 public class ItemRepositoryInMemoryImpl extends ElementRepositoryInMemoryAbs<Item> implements ItemRepository {
     @Override
     public Collection<Item> search(String text) {
         return elements.values().stream()
                 .filter(
-                        item -> (item.getName().toLowerCase().contains(text.toLowerCase())
-                                || item.getDescription().toLowerCase().contains(text.toLowerCase()))
+                        item -> (containsIgnoreCase(item.getName(), text)
+                                || containsIgnoreCase(item.getDescription(), text))
                                 && item.getAvailable()
-                                && !text.isBlank()
+                                && isNotBlank(text)
                 )
                 .collect(Collectors.toList());
     }
@@ -23,7 +26,7 @@ public class ItemRepositoryInMemoryImpl extends ElementRepositoryInMemoryAbs<Ite
     @Override
     public Collection<Item> getAll(long userId) {
         return elements.values().stream()
-                .filter(item -> item.getOwner().getId() == userId)
+                .filter(item -> (item.getOwner() != null && item.getOwner().getId() == userId))
                 .collect(Collectors.toList());
     }
 }

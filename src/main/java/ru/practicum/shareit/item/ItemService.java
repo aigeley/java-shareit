@@ -14,6 +14,4 @@ public interface ItemService extends ElementService<Item> {
     ItemDto add(long itemId, ItemDto item);
 
     ItemDto update(long itemId, long userId, ItemDto item);
-
-    void delete(long itemId);
 }

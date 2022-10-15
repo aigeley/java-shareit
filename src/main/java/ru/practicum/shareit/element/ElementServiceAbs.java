@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import ru.practicum.shareit.element.exception.ElementNotFoundException;
 
 @Slf4j
-public abstract class ElementServiceAbs<T> {
+public abstract class ElementServiceAbs<T> implements ElementService<T> {
     protected final String elementName;
     protected final ElementRepository<T> elementRepository;
 
@@ -13,6 +13,7 @@ public abstract class ElementServiceAbs<T> {
         this.elementRepository = elementRepository;
     }
 
+    @Override
     public T getElement(long id) {
         T element = elementRepository.get(id);
 
@@ -23,7 +24,8 @@ public abstract class ElementServiceAbs<T> {
         return element;
     }
 
-    public void deleteElement(long id) {
+    @Override
+    public void delete(long id) {
         if (elementRepository.delete(id) == null) {
             throw new ElementNotFoundException(elementName, id);
         }
@@ -31,6 +33,7 @@ public abstract class ElementServiceAbs<T> {
         log.info("delete: {} с id = {}", elementName, id);
     }
 
+    @Override
     public void deleteAll() {
         elementRepository.deleteAll();
         log.info("deleteAll: " + elementName);

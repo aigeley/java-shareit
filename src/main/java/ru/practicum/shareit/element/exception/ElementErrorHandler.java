@@ -13,11 +13,6 @@ import static ru.practicum.shareit.ErrorHandler.sendError;
 @RestControllerAdvice
 public class ElementErrorHandler {
     @ExceptionHandler
-    public ResponseEntity<String> handleElementAlreadyExistsException(ElementAlreadyExistsException e) {
-        return sendError(e, HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler
     public ResponseEntity<String> handleElementNotFoundException(ElementNotFoundException e) {
         return sendError(e, HttpStatus.NOT_FOUND);
     }

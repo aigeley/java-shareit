@@ -19,11 +19,6 @@ public abstract class ElementRepositoryInMemoryAbs<T extends Identifiable> imple
     }
 
     @Override
-    public boolean isExists(long id) {
-        return elements.containsKey(id);
-    }
-
-    @Override
     public T get(long id) {
         return elements.get(id);
     }

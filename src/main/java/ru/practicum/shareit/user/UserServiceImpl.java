@@ -65,9 +65,4 @@ public class UserServiceImpl extends ElementServiceAbs<User> implements UserServ
         log.info("update: " + user);
         return toUserDto(userRepository.update(user));
     }
-
-    @Override
-    public void delete(long userId) {
-        deleteElement(userId);
-    }
 }

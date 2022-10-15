@@ -26,6 +26,16 @@ public class ItemServiceImpl extends ElementServiceAbs<Item> implements ItemServ
         this.userService = userService;
     }
 
+    protected Item getItemBelongsToUser(long itemId, long userId) {
+        Item item = getElement(itemId);
+
+        if (item.getOwner().getId() != userId) {
+            throw new ItemOwnerIsDifferentException(elementName, itemId, userId);
+        }
+
+        return item;
+    }
+
     @Override
     public ItemDto get(long itemId) {
         return toItemDto(getElement(itemId));
@@ -51,12 +61,7 @@ public class ItemServiceImpl extends ElementServiceAbs<Item> implements ItemServ
 
     @Override
     public ItemDto update(long itemId, long userId, ItemDto itemDto) {
-        Item oldItem = getElement(itemId);
-
-        if (oldItem.getOwner().getId() != userId) {
-            throw new ItemOwnerIsDifferentException(elementName, itemId, userId);
-        }
-
+        Item oldItem = getItemBelongsToUser(itemId, userId);
         User owner = userService.getElement(userId);
         String name = itemDto.getName();
         String description = itemDto.getDescription();
@@ -73,10 +78,5 @@ public class ItemServiceImpl extends ElementServiceAbs<Item> implements ItemServ
 
         log.info("update: " + item);
         return toItemDto(itemRepository.update(item));
-    }
-
-    @Override
-    public void delete(long itemId) {
-        deleteElement(itemId);
     }
 }

@@ -12,6 +12,4 @@ public interface UserService extends ElementService<User> {
     UserDto add(UserDto userDto);
 
     UserDto update(long userId, UserDto userDto);
-
-    void delete(long userId);
 }
