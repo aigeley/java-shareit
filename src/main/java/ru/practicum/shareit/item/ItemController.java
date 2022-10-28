@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.practicum.shareit.element.Create;
-import ru.practicum.shareit.element.Update;
+import ru.practicum.shareit.element.model.Create;
+import ru.practicum.shareit.element.model.Update;
+import ru.practicum.shareit.item.model.CommentDto;
+import ru.practicum.shareit.item.model.ItemDto;
+import ru.practicum.shareit.item.model.ItemDtoWithBookings;
+import ru.practicum.shareit.item.service.ItemService;
 
-import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/items")
@@ -26,17 +30,17 @@ public class ItemController {
     }
 
     @GetMapping(path = "/{id}", produces = "application/json;charset=UTF-8")
-    public ItemDto get(@PathVariable("id") long itemId, @RequestHeader("X-Sharer-User-Id") long userId) {
-        return itemService.get(itemId);
+    public ItemDtoWithBookings get(@PathVariable("id") long itemId, @RequestHeader("X-Sharer-User-Id") long userId) {
+        return itemService.get(itemId, userId);
     }
 
     @GetMapping(produces = "application/json;charset=UTF-8")
-    public Collection<ItemDto> getAll(@RequestHeader("X-Sharer-User-Id") long userId) {
+    public List<ItemDtoWithBookings> getAll(@RequestHeader("X-Sharer-User-Id") long userId) {
         return itemService.getAll(userId);
     }
 
     @GetMapping(path = "/search", produces = "application/json;charset=UTF-8")
-    public Collection<ItemDto> search(@RequestParam String text, @RequestHeader("X-Sharer-User-Id") long userId) {
+    public List<ItemDto> search(@RequestParam String text, @RequestHeader("X-Sharer-User-Id") long userId) {
         return itemService.search(text);
     }
 
@@ -44,6 +48,12 @@ public class ItemController {
     public ItemDto add(@RequestHeader("X-Sharer-User-Id") long userId,
                        @Validated({Create.class}) @RequestBody ItemDto itemDto) {
         return itemService.add(userId, itemDto);
+    }
+
+    @PostMapping(path = "/{id}/comment", produces = "application/json;charset=UTF-8")
+    public CommentDto addComment(@PathVariable("id") long itemId, @RequestHeader("X-Sharer-User-Id") long userId,
+                                 @Validated({Create.class}) @RequestBody CommentDto commentDto) {
+        return itemService.addComment(itemId, userId, commentDto);
     }
 
     @PatchMapping(path = "/{id}", produces = "application/json;charset=UTF-8")
