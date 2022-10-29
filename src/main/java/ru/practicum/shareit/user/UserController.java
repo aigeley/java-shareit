@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.practicum.shareit.element.Create;
-import ru.practicum.shareit.element.Update;
+import ru.practicum.shareit.element.model.Create;
+import ru.practicum.shareit.element.model.Update;
+import ru.practicum.shareit.user.model.UserDto;
+import ru.practicum.shareit.user.service.UserService;
 
-import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -29,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping(produces = "application/json;charset=UTF-8")
-    public Collection<UserDto> getAll() {
+    public List<UserDto> getAll() {
         return userService.getAll();
     }
 

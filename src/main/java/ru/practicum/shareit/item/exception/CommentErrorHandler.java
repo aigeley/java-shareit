@@ -12,14 +12,14 @@ import ru.practicum.shareit.exception.ErrorHandlerAbs;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
-public class ItemErrorHandler extends ErrorHandlerAbs {
-    public ItemErrorHandler(ObjectMapper objectMapper) {
+public class CommentErrorHandler extends ErrorHandlerAbs {
+    public CommentErrorHandler(ObjectMapper objectMapper) {
         super(objectMapper);
     }
 
     @ExceptionHandler
-    public ResponseEntity<String> handleItemOwnerIsDifferentException(ItemOwnerIsDifferentException e)
+    public ResponseEntity<String> handleCommentAuthorHasNotBookedItemException(CommentAuthorHasNotBookedItemException e)
             throws JsonProcessingException {
-        return sendError(e, HttpStatus.NOT_FOUND);
+        return sendError(e, HttpStatus.BAD_REQUEST);
     }
 }
