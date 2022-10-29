@@ -1,11 +1,7 @@
 package ru.practicum.shareit.booking.model;
 
-import ru.practicum.shareit.item.model.Item;
-import ru.practicum.shareit.user.model.User;
-
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static ru.practicum.shareit.item.model.ItemMapper.toItemDto;
@@ -43,13 +39,9 @@ public class BookingMapper {
                 .collect(Collectors.toList());
     }
 
-    public static Booking toBooking(Booking booking, BookingDto bookingDto, Item item, User booker, BookingStatus status) {
-        Optional.ofNullable(bookingDto.getId()).ifPresent(booking::setId);
-        Optional.ofNullable(bookingDto.getStart()).ifPresent(booking::setStart);
-        Optional.ofNullable(bookingDto.getEnd()).ifPresent(booking::setEnd);
-        Optional.ofNullable(item).ifPresent(booking::setItem);
-        Optional.ofNullable(booker).ifPresent(booking::setBooker);
-        Optional.ofNullable(status).ifPresent(booking::setStatus);
+    public static Booking toBooking(Booking booking, BookingDto bookingDto) {
+        booking.setStart(bookingDto.getStart());
+        booking.setEnd(bookingDto.getEnd());
         return booking;
     }
 }

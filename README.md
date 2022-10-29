@@ -2,6 +2,7 @@
 ![ER-диаграмма](ShareIt.png)
 Пересоздание БД:
 ```postgresql
+DROP USER IF EXISTS test;
 CREATE USER test WITH SUPERUSER PASSWORD 'test';
 DROP DATABASE shareit;
 CREATE DATABASE shareit WITH OWNER test;

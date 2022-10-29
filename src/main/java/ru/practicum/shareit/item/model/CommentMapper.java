@@ -15,8 +15,8 @@ public class CommentMapper {
         return comment == null ? null : new CommentDto(
                 comment.getId(),
                 comment.getText(),
-                comment.getItem().getId(),
-                comment.getAuthor().getName(),
+                Optional.ofNullable(comment.getItem()).map(Item::getId).orElse(null),
+                Optional.ofNullable(comment.getAuthor()).map(User::getName).orElse(null),
                 comment.getCreated()
         );
     }
@@ -27,10 +27,8 @@ public class CommentMapper {
                 .collect(Collectors.toList());
     }
 
-    public static Comment toComment(Comment comment, CommentDto commentDto, Item item, User author) {
-        Optional.ofNullable(commentDto.getText()).ifPresent(comment::setText);
-        Optional.ofNullable(item).ifPresent(comment::setItem);
-        Optional.ofNullable(author).ifPresent(comment::setAuthor);
+    public static Comment toComment(Comment comment, CommentDto commentDto) {
+        comment.setText(commentDto.getText());
         return comment;
     }
 }

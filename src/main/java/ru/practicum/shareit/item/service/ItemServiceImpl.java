@@ -90,7 +90,10 @@ public class ItemServiceImpl extends ElementServiceAbs<Item> implements ItemServ
     @Override
     public ItemDto add(long userId, ItemDto itemDto) {
         User owner = userService.getElement(userId);
-        Item item = toItem(new Item(), itemDto, owner, null);
+
+        Item item = toItem(new Item(), itemDto);
+        item.setOwner(owner);
+
         Item itemAdded = itemRepository.save(item);
         log.info("add: " + itemAdded);
         return toItemDto(itemAdded);
@@ -101,7 +104,11 @@ public class ItemServiceImpl extends ElementServiceAbs<Item> implements ItemServ
         checkUserHasBookedItemInPast(userId, itemId);
         Item item = getElement(itemId);
         User author = userService.getElement(userId);
-        Comment comment = toComment(new Comment(), commentDto, item, author);
+
+        Comment comment = toComment(new Comment(), commentDto);
+        comment.setItem(item);
+        comment.setAuthor(author);
+
         Comment commentAdded = commentRepository.save(comment);
         log.info("addComment: " + commentAdded);
         return toCommentDto(commentAdded);
@@ -109,7 +116,7 @@ public class ItemServiceImpl extends ElementServiceAbs<Item> implements ItemServ
 
     @Override
     public ItemDto update(long itemId, long userId, ItemDto itemDto) {
-        Item item = toItem(getElement(itemId), itemDto, null, null);
+        Item item = toItem(getElement(itemId), itemDto);
         checkItemBelongsToUser(item, userId);
         Item itemUpdated = itemRepository.save(item);
         log.info("update: " + itemUpdated);

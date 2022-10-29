@@ -2,7 +2,6 @@ package ru.practicum.shareit.item.model;
 
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.request.model.ItemRequest;
-import ru.practicum.shareit.user.model.User;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +21,7 @@ public class ItemMapper {
                 item.getName(),
                 item.getDescription(),
                 item.getAvailable(),
-                item.getRequest() == null ? null : item.getRequest().getId()
+                Optional.ofNullable(item.getRequest()).map(ItemRequest::getId).orElse(null)
         );
     }
 
@@ -33,7 +32,7 @@ public class ItemMapper {
                 item.getName(),
                 item.getDescription(),
                 item.getAvailable(),
-                item.getRequest() == null ? null : item.getRequest().getId(),
+                Optional.ofNullable(item.getRequest()).map(ItemRequest::getId).orElse(null),
                 toBookingDto(lastBooking),
                 toBookingDto(nextBooking),
                 toCommentDtoList(commentsList)
@@ -46,12 +45,10 @@ public class ItemMapper {
                 .collect(Collectors.toList());
     }
 
-    public static Item toItem(Item item, ItemDto itemDto, User owner, ItemRequest request) {
+    public static Item toItem(Item item, ItemDto itemDto) {
         Optional.ofNullable(itemDto.getName()).ifPresent(item::setName);
         Optional.ofNullable(itemDto.getDescription()).ifPresent(item::setDescription);
         Optional.ofNullable(itemDto.getAvailable()).ifPresent(item::setAvailable);
-        Optional.ofNullable(owner).ifPresent(item::setOwner);
-        Optional.ofNullable(request).ifPresent(item::setRequest);
         return item;
     }
 }

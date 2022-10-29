@@ -24,7 +24,6 @@ public class UserMapper {
     }
 
     public static User toUser(User user, UserDto userDto) {
-        Optional.ofNullable(userDto.getId()).ifPresent(user::setId);
         Optional.ofNullable(userDto.getName()).ifPresent(user::setName);
         Optional.ofNullable(userDto.getEmail()).ifPresent(user::setEmail);
         return user;

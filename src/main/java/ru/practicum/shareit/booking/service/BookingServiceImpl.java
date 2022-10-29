@@ -93,8 +93,10 @@ public class BookingServiceImpl extends ElementServiceAbs<Booking> implements Bo
         checkItemIsAvailable(item);
         User booker = userService.getElement(userId);
 
-        //новое бронирование всегда создаётся в статусе WAITING
-        Booking booking = toBooking(new Booking(), bookingDto, item, booker, BookingStatus.WAITING);
+        Booking booking = toBooking(new Booking(), bookingDto);
+        booking.setItem(item);
+        booking.setBooker(booker);
+        booking.setStatus(BookingStatus.WAITING); //новое бронирование всегда создаётся в статусе WAITING
 
         Booking bookingAdded = bookingRepository.save(booking);
         log.info("add: " + bookingAdded);
