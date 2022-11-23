@@ -5,48 +5,47 @@ import org.springframework.stereotype.Service;
 import ru.practicum.shareit.element.service.ElementServiceAbs;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.model.UserDto;
+import ru.practicum.shareit.user.model.UserDtoMapper;
 import ru.practicum.shareit.user.repository.UserRepository;
 
 import java.util.List;
-
-import static ru.practicum.shareit.user.model.UserMapper.toUser;
-import static ru.practicum.shareit.user.model.UserMapper.toUserDto;
-import static ru.practicum.shareit.user.model.UserMapper.toUserDtoList;
 
 @Slf4j
 @Service
 public class UserServiceImpl extends ElementServiceAbs<User> implements UserService {
     public static final String ELEMENT_NAME = "пользователь";
-    protected final UserRepository userRepository;
+    private final UserDtoMapper userDtoMapper;
+    private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserDtoMapper userDtoMapper, UserRepository userRepository) {
         super(ELEMENT_NAME, userRepository);
+        this.userDtoMapper = userDtoMapper;
         this.userRepository = userRepository;
     }
 
     @Override
-    public UserDto get(long userId) {
-        return toUserDto(getElement(userId));
+    public UserDto get(Long userId) {
+        return userDtoMapper.toDto(getAndCheckElement(userId));
     }
 
     @Override
     public List<UserDto> getAll() {
-        return toUserDtoList(userRepository.findAll());
+        return userDtoMapper.toDtoList(userRepository.findAll());
     }
 
     @Override
     public UserDto add(UserDto userDto) {
-        User user = toUser(new User(), userDto);
+        User user = userDtoMapper.toElement(new User(), userDto);
         User userAdded = userRepository.save(user);
         log.info("add: " + userAdded);
-        return toUserDto(userAdded);
+        return userDtoMapper.toDto(userAdded);
     }
 
     @Override
-    public UserDto update(long userId, UserDto userDto) {
-        User user = toUser(getElement(userId), userDto);
+    public UserDto update(Long userId, UserDto userDto) {
+        User user = userDtoMapper.toElement(getAndCheckElement(userId), userDto);
         User userUpdated = userRepository.save(user);
         log.info("update: " + userUpdated);
-        return toUserDto(userUpdated);
+        return userDtoMapper.toDto(userUpdated);
     }
 }

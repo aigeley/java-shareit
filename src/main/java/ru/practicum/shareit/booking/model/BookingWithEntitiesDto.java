@@ -1,13 +1,16 @@
 package ru.practicum.shareit.booking.model;
 
+import lombok.ToString;
 import lombok.Value;
+import ru.practicum.shareit.element.model.Identifiable;
 import ru.practicum.shareit.item.model.ItemDto;
 import ru.practicum.shareit.user.model.UserDto;
 
 import java.time.LocalDateTime;
 
 @Value
-public class BookingDtoWithEntities {
+@ToString
+public class BookingWithEntitiesDto implements Identifiable {
     /**
      * уникальный идентификатор бронирования
      */

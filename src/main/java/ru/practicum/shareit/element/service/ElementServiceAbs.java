@@ -5,24 +5,24 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import ru.practicum.shareit.element.exception.ElementNotFoundException;
 
 @Slf4j
-public abstract class ElementServiceAbs<T> implements ElementService<T> {
+public abstract class ElementServiceAbs<E> implements ElementService<E> {
     protected final String elementName;
-    protected final JpaRepository<T, Long> elementRepository;
+    protected final JpaRepository<E, Long> elementRepository;
 
-    protected ElementServiceAbs(String elementName, JpaRepository<T, Long> elementRepository) {
+    protected ElementServiceAbs(String elementName, JpaRepository<E, Long> elementRepository) {
         this.elementName = elementName;
         this.elementRepository = elementRepository;
     }
 
     @Override
-    public T getElement(long id) {
+    public E getAndCheckElement(long id) {
         return elementRepository.findById(id)
                 .orElseThrow(() -> new ElementNotFoundException(elementName, id));
     }
 
     @Override
-    public void delete(long id) {
-        elementRepository.delete(getElement(id));
+    public void delete(Long id) {
+        elementRepository.delete(getAndCheckElement(id));
         log.info("delete: {} с id = {}", elementName, id);
     }
 

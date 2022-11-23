@@ -2,6 +2,7 @@ package ru.practicum.shareit.booking.repository;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.domain.Specification;
@@ -9,9 +10,25 @@ import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingState;
 import ru.practicum.shareit.booking.model.BookingStatus;
 
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 public class BookingRepositoryCustomImpl implements BookingRepositoryCustom {
+    private final Map<BookingState, Specification<Booking>> stateConditions;
+    private final BookingRepository bookingRepository;
+
+    public BookingRepositoryCustomImpl(@Lazy BookingRepository bookingRepository) {
+        this.bookingRepository = bookingRepository;
+        stateConditions = new EnumMap<>(BookingState.class);
+        stateConditions.put(BookingState.CURRENT, bookingIsCurrent());
+        stateConditions.put(BookingState.PAST, bookingIsPast());
+        stateConditions.put(BookingState.FUTURE, bookingIsFuture());
+        stateConditions.put(BookingState.WAITING, bookingStatusIs(BookingStatus.WAITING));
+        stateConditions.put(BookingState.REJECTED, bookingStatusIs(BookingStatus.REJECTED));
+        stateConditions.put(BookingState.ALL, null);
+    }
+
     public static Specification<Booking> bookingBookerIs(long userId) {
         return (root, query, builder) -> builder.equal(root.get("booker").get("id"), userId);
     }
@@ -41,51 +58,23 @@ public class BookingRepositoryCustomImpl implements BookingRepositoryCustom {
         return (root, query, builder) -> builder.lessThan(builder.currentTimestamp(), root.get("start"));
     }
 
-    private final BookingRepository bookingRepository;
-
-    public BookingRepositoryCustomImpl(@Lazy BookingRepository bookingRepository) {
-        this.bookingRepository = bookingRepository;
-    }
-
-    private List<Booking> getAll(BookingState state, Specification<Booking> initialCondition) {
-        Specification<Booking> condition;
-
-        switch (state) {
-            case CURRENT:
-                condition = bookingIsCurrent();
-                break;
-            case PAST:
-                condition = bookingIsPast();
-                break;
-            case FUTURE:
-                condition = bookingIsFuture();
-                break;
-            case WAITING:
-                condition = bookingStatusIs(BookingStatus.WAITING);
-                break;
-            case REJECTED:
-                condition = bookingStatusIs(BookingStatus.REJECTED);
-                break;
-            default:
-                condition = null;
-                break;
-        }
-
+    private List<Booking> getAll(BookingState state, Specification<Booking> initialCondition, Pageable pageable) {
+        Specification<Booking> condition = stateConditions.get(state);
         Specification<Booking> specification = Specification
                 .where(initialCondition)
                 .and(condition);
 
-        return bookingRepository.findAll(specification, Sort.by(Order.desc("id")));
+        return bookingRepository.findAll(specification, pageable).getContent();
     }
 
     @Override
-    public List<Booking> getAllByBooker(BookingState state, long userId) {
-        return getAll(state, bookingBookerIs(userId));
+    public List<Booking> getAllByBooker(BookingState state, long userId, Pageable pageable) {
+        return getAll(state, bookingBookerIs(userId), pageable);
     }
 
     @Override
-    public List<Booking> getAllByOwner(BookingState state, long userId) {
-        return getAll(state, bookingItemOwnerIs(userId));
+    public List<Booking> getAllByOwner(BookingState state, long userId, Pageable pageable) {
+        return getAll(state, bookingItemOwnerIs(userId), pageable);
     }
 
     private Booking getTopBooking(Specification<Booking> specification, Sort sort) {
@@ -111,7 +100,7 @@ public class BookingRepositoryCustomImpl implements BookingRepositoryCustom {
                 .where(bookingItemIs(itemId))
                 .and(bookingIsFuture());
 
-        return getTopBooking(specification, Sort.by(Order.desc("start")));
+        return getTopBooking(specification, Sort.by(Order.asc("start")));
     }
 
     @Override

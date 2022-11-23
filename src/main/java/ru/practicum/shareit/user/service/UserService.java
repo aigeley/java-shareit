@@ -7,11 +7,11 @@ import ru.practicum.shareit.user.model.UserDto;
 import java.util.List;
 
 public interface UserService extends ElementService<User> {
-    UserDto get(long userId);
+    UserDto get(Long userId);
 
     List<UserDto> getAll();
 
     UserDto add(UserDto userDto);
 
-    UserDto update(long userId, UserDto userDto);
+    UserDto update(Long userId, UserDto userDto);
 }

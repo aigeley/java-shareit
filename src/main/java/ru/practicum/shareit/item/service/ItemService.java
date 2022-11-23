@@ -4,7 +4,7 @@ import ru.practicum.shareit.element.service.ElementService;
 import ru.practicum.shareit.item.model.CommentDto;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.item.model.ItemDto;
-import ru.practicum.shareit.item.model.ItemDtoWithBookings;
+import ru.practicum.shareit.item.model.ItemWithBookingsDto;
 
 import java.util.List;
 
@@ -13,15 +13,15 @@ public interface ItemService extends ElementService<Item> {
 
     void checkUserHasBookedItemInPast(long userId, long itemId);
 
-    ItemDtoWithBookings get(long itemId, long userId);
+    ItemWithBookingsDto get(Long itemId, Long userId);
 
-    List<ItemDtoWithBookings> getAll(long userId);
+    List<ItemWithBookingsDto> getAll(Integer from, Integer size, Long userId);
 
-    List<ItemDto> search(String text);
+    List<ItemDto> search(Integer from, Integer size, String text);
 
-    ItemDto add(long itemId, ItemDto item);
+    ItemDto add(Long itemId, ItemDto item);
 
-    CommentDto addComment(long itemId, long userId, CommentDto commentDto);
+    CommentDto addComment(Long itemId, Long userId, CommentDto commentDto);
 
-    ItemDto update(long itemId, long userId, ItemDto item);
+    ItemDto update(Long itemId, Long userId, ItemDto item);
 }

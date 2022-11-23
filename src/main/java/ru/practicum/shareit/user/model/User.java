@@ -2,6 +2,7 @@ package ru.practicum.shareit.user.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import ru.practicum.shareit.element.model.Identifiable;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
+@ToString
 @Table(name = "users")
 @Getter
 @Setter
