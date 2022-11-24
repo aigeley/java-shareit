@@ -39,14 +39,22 @@ public class TestData {
     public static final int WAIT_CURRENT_MILLIS = START_MILLIS + DURATION_MILLIS;
     public static final int WAIT_PAST_MILLIS = END_MILLIS + DURATION_MILLIS;
 
-    public final UserTestUtils userUtils;
-    public final ItemRequestTestUtils itemRequestUtils;
-    public final ItemRequestWithAnswersTestUtils itemRequestWithAnswersUtils;
-    public final ItemTestUtils itemUtils;
-    public final ItemWithBookingsTestUtils itemWithBookingsUtils;
-    public final CommentTestUtils commentUtils;
-    public final BookingTestUtils bookingUtils;
-    public final BookingWithEntitiesTestUtils bookingWithEntitiesUtils;
+    @Autowired
+    public UserTestUtils userUtils;
+    @Autowired
+    public ItemRequestTestUtils itemRequestUtils;
+    @Autowired
+    public ItemRequestWithAnswersTestUtils itemRequestWithAnswersUtils;
+    @Autowired
+    public ItemTestUtils itemUtils;
+    @Autowired
+    public ItemWithBookingsTestUtils itemWithBookingsUtils;
+    @Autowired
+    public CommentTestUtils commentUtils;
+    @Autowired
+    public BookingTestUtils bookingUtils;
+    @Autowired
+    public BookingWithEntitiesTestUtils bookingWithEntitiesUtils;
 
     public final User userOwner;
     public final User userBooker;
@@ -69,23 +77,7 @@ public class TestData {
     public final Booking bookingFutureRejected;
 
     @Autowired
-    public TestData(
-            UserTestUtils userUtils,
-            ItemRequestTestUtils itemRequestUtils,
-            ItemRequestWithAnswersTestUtils itemRequestWithAnswersUtils,
-            ItemTestUtils itemUtils, ItemWithBookingsTestUtils itemWithBookingsUtils,
-            CommentTestUtils commentUtils, BookingTestUtils bookingUtils,
-            BookingWithEntitiesTestUtils bookingWithEntitiesUtils
-    ) {
-        this.userUtils = userUtils;
-        this.itemRequestUtils = itemRequestUtils;
-        this.itemRequestWithAnswersUtils = itemRequestWithAnswersUtils;
-        this.itemUtils = itemUtils;
-        this.itemWithBookingsUtils = itemWithBookingsUtils;
-        this.commentUtils = commentUtils;
-        this.bookingUtils = bookingUtils;
-        this.bookingWithEntitiesUtils = bookingWithEntitiesUtils;
-
+    public TestData() {
         userOwner = new User();
         userOwner.setName("Neo");
         userOwner.setEmail("TAnderson@metacortex.com");

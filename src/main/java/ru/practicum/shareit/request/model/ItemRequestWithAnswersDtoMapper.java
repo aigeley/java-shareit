@@ -1,6 +1,7 @@
 package ru.practicum.shareit.request.model;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.element.model.ElementDtoMapperAbs;
 import ru.practicum.shareit.item.model.ItemDtoMapper;
@@ -11,15 +12,15 @@ import java.util.Optional;
 @Component
 public class ItemRequestWithAnswersDtoMapper
         extends ElementDtoMapperAbs<ItemRequestWithAnswers, ItemRequestWithAnswersDto> {
-    private final ItemDtoMapper itemDtoMapper;
+    @Autowired
+    private ItemDtoMapper itemDtoMapper;
 
-    public ItemRequestWithAnswersDtoMapper(ItemDtoMapper itemDtoMapper) {
+    public ItemRequestWithAnswersDtoMapper() {
         super(
                 ItemRequestWithAnswersDto.class,
                 new TypeReference<>() {
                 }
         );
-        this.itemDtoMapper = itemDtoMapper;
     }
 
     @Override

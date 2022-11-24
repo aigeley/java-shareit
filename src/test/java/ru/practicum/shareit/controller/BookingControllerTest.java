@@ -20,12 +20,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class BookingControllerTest {
-    private final TestData td;
-
     @Autowired
-    public BookingControllerTest(TestData td) {
-        this.td = td;
-    }
+    private TestData td;
 
     @BeforeEach
     void setUp() throws Exception {

@@ -1,8 +1,7 @@
 package ru.practicum.shareit.item.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.element.model.PageRequestFromElement;
@@ -33,28 +32,25 @@ import java.util.stream.Collectors;
 @Service
 public class ItemServiceImpl extends ElementServiceAbs<Item> implements ItemService {
     public static final String ELEMENT_NAME = "вещь";
-    private final ItemDtoMapper itemDtoMapper;
-    private final ItemWithBookingsDtoMapper itemWithBookingsDtoMapper;
-    private final CommentDtoMapper commentDtoMapper;
     private final ItemRepository itemRepository;
-    private final UserService userService;
-    private final BookingRepository bookingRepository;
-    private final CommentRepository commentRepository;
-    private final ItemRequestService itemRequestService;
+    @Autowired
+    private ItemDtoMapper itemDtoMapper;
+    @Autowired
+    private ItemWithBookingsDtoMapper itemWithBookingsDtoMapper;
+    @Autowired
+    private CommentDtoMapper commentDtoMapper;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private BookingRepository bookingRepository;
+    @Autowired
+    private CommentRepository commentRepository;
+    @Autowired
+    private ItemRequestService itemRequestService;
 
-    public ItemServiceImpl(ItemDtoMapper itemDtoMapper, ItemWithBookingsDtoMapper itemWithBookingsDtoMapper,
-                           CommentDtoMapper commentDtoMapper, ItemRepository itemRepository, UserService userService,
-                           BookingRepository bookingRepository, CommentRepository commentRepository,
-                           ItemRequestService itemRequestService) {
+    public ItemServiceImpl(ItemRepository itemRepository) {
         super(ELEMENT_NAME, itemRepository);
-        this.itemDtoMapper = itemDtoMapper;
-        this.itemWithBookingsDtoMapper = itemWithBookingsDtoMapper;
-        this.commentDtoMapper = commentDtoMapper;
         this.itemRepository = itemRepository;
-        this.userService = userService;
-        this.bookingRepository = bookingRepository;
-        this.commentRepository = commentRepository;
-        this.itemRequestService = itemRequestService;
     }
 
     @Override
@@ -91,7 +87,7 @@ public class ItemServiceImpl extends ElementServiceAbs<Item> implements ItemServ
         userService.getAndCheckElement(userId);
         return itemRepository.findByOwner_Id(
                         userId,
-                        PageRequestFromElement.of(from, size, Sort.by(Order.asc("id")))
+                        PageRequestFromElement.ofSortByIdAsc(from, size)
                 )
                 .stream()
                 .map(item -> itemWithBookingsDtoMapper.toDto(
@@ -111,7 +107,7 @@ public class ItemServiceImpl extends ElementServiceAbs<Item> implements ItemServ
         return itemDtoMapper.toDtoList(
                 itemRepository.search(
                         text,
-                        PageRequestFromElement.of(from, size, Sort.by(Order.asc("id")))
+                        PageRequestFromElement.ofSortByIdAsc(from, size)
                 )
         );
     }

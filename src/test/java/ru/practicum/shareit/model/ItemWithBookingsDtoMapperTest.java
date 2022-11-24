@@ -16,12 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 @SpringBootTest
 @AutoConfigureMockMvc
 class ItemWithBookingsDtoMapperTest {
-    private final TestData td;
-
     @Autowired
-    public ItemWithBookingsDtoMapperTest(TestData td) {
-        this.td = td;
-    }
+    private TestData td;
 
     @Test
     void toDto_returnCorrectDto() {

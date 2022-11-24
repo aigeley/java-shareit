@@ -1,6 +1,7 @@
 package ru.practicum.shareit.booking.model;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.practicum.shareit.element.model.ElementDtoMapperAbs;
 import ru.practicum.shareit.item.model.ItemDtoMapper;
@@ -8,17 +9,17 @@ import ru.practicum.shareit.user.model.UserDtoMapper;
 
 @Component
 public class BookingWithEntitiesDtoMapper extends ElementDtoMapperAbs<Booking, BookingWithEntitiesDto> {
-    private final ItemDtoMapper itemDtoMapper;
-    private final UserDtoMapper userDtoMapper;
+    @Autowired
+    private ItemDtoMapper itemDtoMapper;
+    @Autowired
+    private UserDtoMapper userDtoMapper;
 
-    public BookingWithEntitiesDtoMapper(ItemDtoMapper itemDtoMapper, UserDtoMapper userDtoMapper) {
+    public BookingWithEntitiesDtoMapper() {
         super(
                 BookingWithEntitiesDto.class,
                 new TypeReference<>() {
                 }
         );
-        this.itemDtoMapper = itemDtoMapper;
-        this.userDtoMapper = userDtoMapper;
     }
 
     @Override

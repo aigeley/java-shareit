@@ -18,12 +18,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class UserControllerTest {
-    private final TestData td;
-
     @Autowired
-    public UserControllerTest(TestData td) {
-        this.td = td;
-    }
+    private TestData td;
 
     @AfterEach
     void tearDown() throws Exception {

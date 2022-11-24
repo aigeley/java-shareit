@@ -1,8 +1,7 @@
 package ru.practicum.shareit.booking.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.exception.BookingBookerSameAsOwnerException;
 import ru.practicum.shareit.booking.exception.BookingIsAlreadyApprovedException;
@@ -29,19 +28,19 @@ import java.util.List;
 @Service
 public class BookingServiceImpl extends ElementServiceAbs<Booking> implements BookingService {
     public static final String ELEMENT_NAME = "бронирование";
-    private final BookingDtoMapper bookingDtoMapper;
-    private final BookingWithEntitiesDtoMapper bookingWithEntitiesDtoMapper;
     private final BookingRepository bookingRepository;
-    private final ItemService itemService;
-    private final UserService userService;
+    @Autowired
+    private BookingDtoMapper bookingDtoMapper;
+    @Autowired
+    private BookingWithEntitiesDtoMapper bookingWithEntitiesDtoMapper;
+    @Autowired
+    private ItemService itemService;
+    @Autowired
+    private UserService userService;
 
-    public BookingServiceImpl(BookingDtoMapper bookingDtoMapper, BookingWithEntitiesDtoMapper bookingWithEntitiesDtoMapper, BookingRepository bookingRepository, ItemService itemService, UserService userService) {
+    public BookingServiceImpl(BookingRepository bookingRepository) {
         super(ELEMENT_NAME, bookingRepository);
-        this.bookingDtoMapper = bookingDtoMapper;
-        this.bookingWithEntitiesDtoMapper = bookingWithEntitiesDtoMapper;
         this.bookingRepository = bookingRepository;
-        this.itemService = itemService;
-        this.userService = userService;
     }
 
     @Override
@@ -87,7 +86,7 @@ public class BookingServiceImpl extends ElementServiceAbs<Booking> implements Bo
                 bookingRepository.getAllByBooker(
                         state,
                         booker.getId(),
-                        PageRequestFromElement.of(from, size, Sort.by(Order.desc("id")))
+                        PageRequestFromElement.ofSortByIdDesc(from, size)
                 )
         );
     }
@@ -99,7 +98,7 @@ public class BookingServiceImpl extends ElementServiceAbs<Booking> implements Bo
                 bookingRepository.getAllByOwner(
                         state,
                         owner.getId(),
-                        PageRequestFromElement.of(from, size, Sort.by(Order.desc("id")))
+                        PageRequestFromElement.ofSortByIdDesc(from, size)
                 )
         );
     }

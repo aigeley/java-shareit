@@ -1,13 +1,14 @@
 package ru.practicum.shareit.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.practicum.shareit.element.model.ElementDtoMapper;
+import ru.practicum.shareit.element.model.ElementDtoMapperAbs;
 import ru.practicum.shareit.element.model.Identifiable;
 
 import java.nio.charset.StandardCharsets;
@@ -18,13 +19,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 
 public abstract class ElementTestUtils<E extends Identifiable, D extends Identifiable> {
-    private final MockMvc mockMvc;
-    private final ObjectMapper objectMapper;
-    public final ElementDtoMapper<E, D> elementDtoMapper;
+    public final ElementDtoMapperAbs<E, D> elementDtoMapper;
+    @Autowired
+    private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    public ElementTestUtils(MockMvc mockMvc, ObjectMapper objectMapper, ElementDtoMapper<E, D> elementDtoMapper) {
-        this.mockMvc = mockMvc;
-        this.objectMapper = objectMapper;
+    public ElementTestUtils(ElementDtoMapperAbs<E, D> elementDtoMapper) {
         this.elementDtoMapper = elementDtoMapper;
     }
 

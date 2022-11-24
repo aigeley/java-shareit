@@ -2,6 +2,7 @@ package ru.practicum.shareit.element.model;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 
 import java.util.Objects;
 
@@ -15,6 +16,14 @@ public class PageRequestFromElement extends PageRequest {
 
     public static PageRequestFromElement of(int from, int size, Sort sort) {
         return new PageRequestFromElement(from, size, sort);
+    }
+
+    public static PageRequestFromElement ofSortByIdAsc(int from, int size) {
+        return of(from, size, Sort.by(Order.asc("id")));
+    }
+
+    public static PageRequestFromElement ofSortByIdDesc(int from, int size) {
+        return of(from, size, Sort.by(Order.desc("id")));
     }
 
     @Override

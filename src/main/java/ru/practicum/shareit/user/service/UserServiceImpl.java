@@ -1,6 +1,7 @@
 package ru.practicum.shareit.user.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.element.service.ElementServiceAbs;
 import ru.practicum.shareit.user.model.User;
@@ -14,12 +15,12 @@ import java.util.List;
 @Service
 public class UserServiceImpl extends ElementServiceAbs<User> implements UserService {
     public static final String ELEMENT_NAME = "пользователь";
-    private final UserDtoMapper userDtoMapper;
     private final UserRepository userRepository;
+    @Autowired
+    private UserDtoMapper userDtoMapper;
 
-    public UserServiceImpl(UserDtoMapper userDtoMapper, UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository) {
         super(ELEMENT_NAME, userRepository);
-        this.userDtoMapper = userDtoMapper;
         this.userRepository = userRepository;
     }
 

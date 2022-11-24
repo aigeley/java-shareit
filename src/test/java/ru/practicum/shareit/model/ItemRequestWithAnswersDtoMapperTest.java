@@ -15,12 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 @AutoConfigureMockMvc
 class ItemRequestWithAnswersDtoMapperTest {
-    private final TestData td;
-
     @Autowired
-    public ItemRequestWithAnswersDtoMapperTest(TestData td) {
-        this.td = td;
-    }
+    private TestData td;
 
     @Test
     void toDto_returnCorrectDto() {

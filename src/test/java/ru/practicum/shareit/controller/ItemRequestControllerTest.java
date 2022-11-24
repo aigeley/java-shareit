@@ -23,12 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 class ItemRequestControllerTest {
-    private final TestData td;
-
     @Autowired
-    public ItemRequestControllerTest(TestData td) {
-        this.td = td;
-    }
+    private TestData td;
 
     @BeforeEach
     void setUp() throws Exception {

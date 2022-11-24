@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking.repository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,10 +17,11 @@ import java.util.Map;
 
 public class BookingRepositoryCustomImpl implements BookingRepositoryCustom {
     private final Map<BookingState, Specification<Booking>> stateConditions;
-    private final BookingRepository bookingRepository;
+    @Lazy
+    @Autowired
+    private BookingRepository bookingRepository;
 
-    public BookingRepositoryCustomImpl(@Lazy BookingRepository bookingRepository) {
-        this.bookingRepository = bookingRepository;
+    public BookingRepositoryCustomImpl() {
         stateConditions = new EnumMap<>(BookingState.class);
         stateConditions.put(BookingState.CURRENT, bookingIsCurrent());
         stateConditions.put(BookingState.PAST, bookingIsPast());

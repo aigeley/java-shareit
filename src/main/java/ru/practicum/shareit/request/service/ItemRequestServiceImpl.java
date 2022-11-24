@@ -1,8 +1,7 @@
 package ru.practicum.shareit.request.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Order;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.element.model.PageRequestFromElement;
 import ru.practicum.shareit.element.service.ElementServiceAbs;
@@ -25,23 +24,19 @@ import java.util.stream.Collectors;
 @Service
 public class ItemRequestServiceImpl extends ElementServiceAbs<ItemRequest> implements ItemRequestService {
     public static final String ELEMENT_NAME = "запрос";
-    private final ItemRequestDtoMapper itemRequestDtoMapper;
-    private final ItemRequestWithAnswersDtoMapper itemRequestWithAnswersDtoMapper;
     private final ItemRequestRepository itemRequestRepository;
-    private final UserService userService;
-    private final ItemRepository itemRepository;
+    @Autowired
+    private ItemRequestDtoMapper itemRequestDtoMapper;
+    @Autowired
+    private ItemRequestWithAnswersDtoMapper itemRequestWithAnswersDtoMapper;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ItemRepository itemRepository;
 
-    public ItemRequestServiceImpl(ItemRequestDtoMapper itemRequestDtoMapper,
-                                  ItemRequestWithAnswersDtoMapper itemRequestWithAnswersDtoMapper,
-                                  ItemRequestRepository itemRequestRepository,
-                                  UserService userService,
-                                  ItemRepository itemRepository) {
+    public ItemRequestServiceImpl(ItemRequestRepository itemRequestRepository) {
         super(ELEMENT_NAME, itemRequestRepository);
-        this.itemRequestDtoMapper = itemRequestDtoMapper;
-        this.itemRequestWithAnswersDtoMapper = itemRequestWithAnswersDtoMapper;
         this.itemRequestRepository = itemRequestRepository;
-        this.userService = userService;
-        this.itemRepository = itemRepository;
     }
 
     @Override
@@ -77,7 +72,7 @@ public class ItemRequestServiceImpl extends ElementServiceAbs<ItemRequest> imple
         return (from == null || size == null) ? Collections.emptyList() : itemRequestRepository
                 .findByRequestor_IdNot(
                         userId,
-                        PageRequestFromElement.of(from, size, Sort.by(Order.desc("id")))
+                        PageRequestFromElement.ofSortByIdDesc(from, size)
                 )
                 .stream()
                 .map(itemRequest -> itemRequestWithAnswersDtoMapper.toDto(
