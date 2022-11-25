@@ -1,7 +1,6 @@
 package ru.practicum.shareit.user;
 
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,24 +8,32 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.practicum.shareit.element.ElementControllerAbs;
 import ru.practicum.shareit.element.model.Create;
 import ru.practicum.shareit.element.model.Update;
+import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.model.UserDto;
 import ru.practicum.shareit.user.service.UserService;
 
 import java.util.List;
 
+import static ru.practicum.shareit.user.UserController.BASE_PATH;
+
 @RestController
-@RequestMapping("/users")
-public class UserController {
-    UserService userService;
+@RequestMapping(BASE_PATH)
+public class UserController extends ElementControllerAbs<User> {
+    public static final String BASE_PATH = "/users";
+    private final UserService userService;
 
     public UserController(UserService userService) {
+        super(userService);
         this.userService = userService;
     }
 
     @GetMapping(path = "/{id}", produces = "application/json;charset=UTF-8")
-    public UserDto get(@PathVariable("id") long userId) {
+    public UserDto get(
+            @PathVariable("id") Long userId
+    ) {
         return userService.get(userId);
     }
 
@@ -36,22 +43,17 @@ public class UserController {
     }
 
     @PostMapping(produces = "application/json;charset=UTF-8")
-    public UserDto add(@Validated({Create.class}) @RequestBody UserDto userDto) {
+    public UserDto add(
+            @Validated({Create.class}) @RequestBody UserDto userDto
+    ) {
         return userService.add(userDto);
     }
 
     @PatchMapping(path = "/{id}", produces = "application/json;charset=UTF-8")
-    public UserDto update(@PathVariable("id") long userId, @Validated({Update.class}) @RequestBody UserDto userDto) {
+    public UserDto update(
+            @PathVariable("id") Long userId,
+            @Validated({Update.class}) @RequestBody UserDto userDto
+    ) {
         return userService.update(userId, userDto);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") long userId) {
-        userService.delete(userId);
-    }
-
-    @DeleteMapping
-    public void deleteAll() {
-        userService.deleteAll();
     }
 }

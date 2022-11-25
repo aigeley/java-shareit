@@ -1,9 +1,9 @@
 package ru.practicum.shareit.element.service;
 
 public interface ElementService<T> {
-    T getElement(long id);
+    T getAndCheckElement(long id);
 
-    void delete(long id);
+    void delete(Long id);
 
     void deleteAll();
 }

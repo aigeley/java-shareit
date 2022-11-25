@@ -2,21 +2,22 @@ package ru.practicum.shareit.item.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import ru.practicum.shareit.element.model.Identifiable;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
+@ToString
 @Table(name = "items")
 @Getter
 @Setter
@@ -47,14 +48,14 @@ public class Item implements Identifiable {
     /**
      * владелец вещи
      */
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "user_id", nullable = false)
     private User owner;
     /**
      * если вещь была создана по запросу другого пользователя,
      * то в этом поле будет храниться ссылка на соответствующий запрос
      */
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "request_id", referencedColumnName = "request_id")
     private ItemRequest request;
 }

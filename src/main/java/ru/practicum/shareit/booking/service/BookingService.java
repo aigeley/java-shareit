@@ -2,8 +2,8 @@ package ru.practicum.shareit.booking.service;
 
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.BookingDto;
-import ru.practicum.shareit.booking.model.BookingDtoWithEntities;
 import ru.practicum.shareit.booking.model.BookingState;
+import ru.practicum.shareit.booking.model.BookingWithEntitiesDto;
 import ru.practicum.shareit.element.service.ElementService;
 import ru.practicum.shareit.item.model.Item;
 
@@ -18,13 +18,13 @@ public interface BookingService extends ElementService<Booking> {
 
     void checkBookerIsNotOwner(long ownerId, long bookerId, long itemId);
 
-    BookingDtoWithEntities get(long bookingId, long userId);
+    BookingWithEntitiesDto get(Long bookingId, Long userId);
 
-    List<BookingDtoWithEntities> getAllByBooker(BookingState state, long userId);
+    List<BookingWithEntitiesDto> getAllByBooker(Integer from, Integer size, BookingState state, Long userId);
 
-    List<BookingDtoWithEntities> getAllByOwner(BookingState state, long userId);
+    List<BookingWithEntitiesDto> getAllByOwner(Integer from, Integer size, BookingState state, Long userId);
 
-    BookingDtoWithEntities add(long userId, BookingDto bookingDto);
+    BookingWithEntitiesDto add(Long userId, BookingDto bookingDto);
 
-    BookingDtoWithEntities approve(long bookingId, Boolean approved, long userId);
+    BookingWithEntitiesDto approve(Long bookingId, Boolean approved, Long userId);
 }

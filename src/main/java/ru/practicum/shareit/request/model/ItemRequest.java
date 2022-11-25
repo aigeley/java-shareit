@@ -2,24 +2,27 @@ package ru.practicum.shareit.request.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import ru.practicum.shareit.element.model.Identifiable;
 import ru.practicum.shareit.user.model.User;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Entity
+@ToString
 @Table(name = "requests")
 @Getter
 @Setter
-public class ItemRequest {
+public class ItemRequest implements Identifiable {
     /**
      * уникальный идентификатор запроса
      */
@@ -36,12 +39,12 @@ public class ItemRequest {
     /**
      * пользователь, создавший запрос
      */
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "requestor_id", referencedColumnName = "user_id", nullable = false)
     private User requestor;
     /**
      * дата и время создания запроса
      */
     @Column(name = "created", nullable = false)
-    private LocalDateTime created;
+    private LocalDateTime created = LocalDateTime.now().truncatedTo(ChronoUnit.MICROS);
 }

@@ -1,5 +1,6 @@
 package ru.practicum.shareit.item.repository;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import ru.practicum.shareit.item.model.Item;
@@ -7,7 +8,9 @@ import ru.practicum.shareit.item.model.Item;
 import java.util.List;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
-    List<Item> findByOwner_IdOrderById(long userId);
+    List<Item> findByOwner_Id(Long userId, Pageable pageable);
+
+    List<Item> findByRequest_IdOrderById(Long requestId);
 
     @Query("SELECT i FROM Item i " +
             "WHERE i.available = true " +
@@ -15,5 +18,5 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
             "OR UPPER(i.description) LIKE UPPER(CONCAT('%', ?1, '%'))) " +
             "AND ?1 IS NOT NULL " +
             "AND ?1 <> ''")
-    List<Item> search(String text);
+    List<Item> search(String text, Pageable pageable);
 }

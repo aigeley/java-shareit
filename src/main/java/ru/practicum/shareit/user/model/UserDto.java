@@ -1,14 +1,17 @@
 package ru.practicum.shareit.user.model;
 
+import lombok.ToString;
 import lombok.Value;
 import ru.practicum.shareit.element.model.Create;
+import ru.practicum.shareit.element.model.Identifiable;
 import ru.practicum.shareit.element.model.Update;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Value
-public class UserDto {
+@ToString
+public class UserDto implements Identifiable {
     /**
      * уникальный идентификатор пользователя
      */

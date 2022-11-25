@@ -1,7 +1,6 @@
 package ru.practicum.shareit.exception;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -18,10 +17,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestControllerAdvice
 public class ErrorHandler extends ErrorHandlerAbs {
-    public ErrorHandler(ObjectMapper objectMapper) {
-        super(objectMapper);
-    }
-
     @ExceptionHandler
     public ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException e)
             throws JsonProcessingException {

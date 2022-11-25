@@ -1,13 +1,16 @@
 package ru.practicum.shareit.item.model;
 
+import lombok.ToString;
 import lombok.Value;
 import ru.practicum.shareit.element.model.Create;
+import ru.practicum.shareit.element.model.Identifiable;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Value
-public class CommentDto {
+@ToString
+public class CommentDto implements Identifiable {
     /**
      * уникальный идентификатор комментария
      */
