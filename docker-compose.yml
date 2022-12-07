@@ -9,7 +9,6 @@ services:
       - server
     environment:
       - SHAREIT_SERVER_URL=http://server:9090
-      - TZ=Europe/Moscow
 
   server:
     build: ./server
@@ -20,8 +19,6 @@ services:
       - db
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/shareit
-      - SPRING_SQL_INIT_MODE=always
-      - TZ=Europe/Moscow
 
   db:
     image: postgres:14.6-alpine3.16
@@ -32,4 +29,3 @@ services:
       - POSTGRES_DB=shareit
       - POSTGRES_USER=test
       - POSTGRES_PASSWORD=test
-      - TZ=Europe/Moscow
