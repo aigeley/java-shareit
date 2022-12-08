@@ -2,11 +2,11 @@ package ru.practicum.shareit.item.model;
 
 import lombok.ToString;
 import lombok.Value;
-import ru.practicum.shareit.element.model.Identifiable;
+import ru.practicum.shareit.element.model.Element;
 
 @Value
 @ToString
-public class ItemDto implements Identifiable {
+public class ItemDto extends Element {
     /**
      * уникальный идентификатор вещи
      */

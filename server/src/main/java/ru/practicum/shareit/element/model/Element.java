@@ -2,10 +2,10 @@ package ru.practicum.shareit.element.model;
 
 import org.apache.commons.lang3.NotImplementedException;
 
-public interface Identifiable {
-    Long getId();
+public abstract class Element {
+    public abstract Long getId();
 
-    default void setId(Long id) {
+    public void setId(Long id) {
         throw new NotImplementedException();
     }
 }

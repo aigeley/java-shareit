@@ -4,7 +4,7 @@ import lombok.ToString;
 import lombok.Value;
 import ru.practicum.shareit.booking.model.validation.BookingStartLessThenEnd;
 import ru.practicum.shareit.element.model.Create;
-import ru.practicum.shareit.element.model.Identifiable;
+import ru.practicum.shareit.element.model.Element;
 import ru.practicum.shareit.element.model.Update;
 
 import javax.validation.constraints.FutureOrPresent;
@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Value
 @ToString
 @BookingStartLessThenEnd(groups = {Create.class, Update.class})
-public class BookingDto implements Identifiable {
+public class BookingDto extends Element {
     /**
      * уникальный идентификатор бронирования
      */

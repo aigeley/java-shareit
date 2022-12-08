@@ -3,13 +3,13 @@ package ru.practicum.shareit.item.model;
 import lombok.ToString;
 import lombok.Value;
 import ru.practicum.shareit.booking.model.BookingDto;
-import ru.practicum.shareit.element.model.Identifiable;
+import ru.practicum.shareit.element.model.Element;
 
 import java.util.List;
 
 @Value
 @ToString
-public class ItemWithBookingsDto implements Identifiable {
+public class ItemWithBookingsDto extends Element {
     /**
      * уникальный идентификатор вещи
      */

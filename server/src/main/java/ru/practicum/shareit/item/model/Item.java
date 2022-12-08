@@ -3,7 +3,7 @@ package ru.practicum.shareit.item.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import ru.practicum.shareit.element.model.Identifiable;
+import ru.practicum.shareit.element.model.Element;
 import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.model.User;
 
@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @Table(name = "items")
 @Getter
 @Setter
-public class Item implements Identifiable {
+public class Item extends Element {
     /**
      * уникальный идентификатор вещи
      */

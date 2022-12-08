@@ -2,14 +2,14 @@ package ru.practicum.shareit.request.model;
 
 import lombok.ToString;
 import lombok.Value;
-import ru.practicum.shareit.element.model.Identifiable;
+import ru.practicum.shareit.element.model.Element;
 import ru.practicum.shareit.item.model.Item;
 
 import java.util.List;
 
 @Value
 @ToString
-public class ItemRequestWithAnswers implements Identifiable {
+public class ItemRequestWithAnswers extends Element {
     /**
      * запрос
      */

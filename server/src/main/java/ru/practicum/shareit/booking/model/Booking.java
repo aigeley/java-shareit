@@ -3,7 +3,7 @@ package ru.practicum.shareit.booking.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import ru.practicum.shareit.element.model.Identifiable;
+import ru.practicum.shareit.element.model.Element;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @Table(name = "bookings")
 @Getter
 @Setter
-public class Booking implements Identifiable {
+public class Booking extends Element {
     /**
      * уникальный идентификатор бронирования
      */

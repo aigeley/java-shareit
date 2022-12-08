@@ -3,7 +3,7 @@ package ru.practicum.shareit.item.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import ru.practicum.shareit.element.model.Identifiable;
+import ru.practicum.shareit.element.model.Element;
 import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.Column;
@@ -22,7 +22,7 @@ import java.time.temporal.ChronoUnit;
 @Table(name = "comments")
 @Getter
 @Setter
-public class Comment implements Identifiable {
+public class Comment extends Element {
     /**
      * уникальный идентификатор комментария
      */

@@ -3,7 +3,7 @@ package ru.practicum.shareit.request.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import ru.practicum.shareit.element.model.Identifiable;
+import ru.practicum.shareit.element.model.Element;
 import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.Column;
@@ -22,7 +22,7 @@ import java.time.temporal.ChronoUnit;
 @Table(name = "requests")
 @Getter
 @Setter
-public class ItemRequest implements Identifiable {
+public class ItemRequest extends Element {
     /**
      * уникальный идентификатор запроса
      */

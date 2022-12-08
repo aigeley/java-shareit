@@ -3,14 +3,14 @@ package ru.practicum.shareit.request.model;
 import lombok.ToString;
 import lombok.Value;
 import ru.practicum.shareit.element.model.Create;
-import ru.practicum.shareit.element.model.Identifiable;
+import ru.practicum.shareit.element.model.Element;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Value
 @ToString
-public class ItemRequestDto implements Identifiable {
+public class ItemRequestDto extends Element {
     /**
      * уникальный идентификатор запроса
      */

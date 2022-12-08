@@ -8,8 +8,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import ru.practicum.shareit.element.model.Element;
 import ru.practicum.shareit.element.model.ElementDtoMapperAbs;
-import ru.practicum.shareit.element.model.Identifiable;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -18,7 +18,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 
-public abstract class ElementTestUtils<E extends Identifiable, D extends Identifiable> {
+public abstract class ElementTestUtils<E extends Element, D extends Element> {
     public final ElementDtoMapperAbs<E, D> elementDtoMapper;
     @Autowired
     private MockMvc mockMvc;
